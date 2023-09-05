@@ -1,0 +1,6 @@
+{
+    "manifest_version": 3,
+    "name": "Comprehensible Cake",
+    "description": "Changes the subtitle language rotation order on cake.day to be more comprehensible.",
+    "version": "1.0.0"
+}
