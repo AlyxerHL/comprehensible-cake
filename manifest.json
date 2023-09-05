@@ -2,5 +2,15 @@
     "manifest_version": 3,
     "name": "Comprehensible Cake",
     "description": "Changes the subtitle language rotation order on cake.day to be more comprehensible.",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "permissions": ["webNavigation", "tabs"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://cake.day/*"],
+            "js": ["content.js"]
+        }
+    ]
 }
