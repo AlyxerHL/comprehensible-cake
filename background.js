@@ -1,3 +1,5 @@
 chrome.webNavigation.onCompleted.addListener((details) => {
-    chrome.tabs.sendMessage(details.tabId, "comprehensible-cake");
+    if (details.url.includes("youtube")) {
+        chrome.tabs.sendMessage(details.tabId, "comprehensible-cake");
+    }
 });
