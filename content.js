@@ -6,25 +6,42 @@ const LANGUAGE_STATE = {
     hide: "숨김",
 };
 
+/**
+ * @param {number} stage
+ * @param {HTMLButtonElement} repeatButton
+ * @param {boolean} repeatState
+ * @param {HTMLButtonElement} languageButton
+ * @param {string} languageState
+ * @returns {HTMLButtonElement}
+ */
+const createStageButton = (stage, repeatButton, repeatState, languageButton, languageState) => {
+    const button = document.createElement("button");
+    button.innerText = stage;
+
+    button.addEventListener("click", async () => {
+        if (repeatButton.ariaPressed !== repeatState.toString()) {
+            repeatButton.click();
+        }
+
+        while (languageButton.innerText !== languageState) {
+            languageButton.click();
+            await new Promise((resolve) => setTimeout(resolve, 0));
+        }
+    });
+
+    return button;
+};
+
+/**
+ * @typedef {{
+ *     root: HTMLDivElement,
+ *     first: HTMLButtonElement,
+ *     second: HTMLButtonElement,
+ *     third: HTMLButtonElement,
+ * }} Buttons
+ * @returns {Buttons | null}
+ */
 const findAndCreateButtons = () => {
-    const createStageButton = (stage, repeatState, languageState) => {
-        const button = document.createElement("button");
-        button.innerText = stage;
-
-        button.addEventListener("click", async () => {
-            if (repeat.ariaPressed !== repeatState.toString()) {
-                repeat.click();
-            }
-
-            while (language.innerText !== languageState) {
-                language.click();
-                await new Promise((resolve) => setTimeout(resolve, 0));
-            }
-        });
-
-        return button;
-    };
-
     const root = document.querySelector(BUTTONS_ROOT_QUERY);
     if (!root) {
         return null;
@@ -32,9 +49,9 @@ const findAndCreateButtons = () => {
 
     const repeat = document.querySelector(`${BUTTONS_ROOT_QUERY} :nth-child(2)`);
     const language = document.querySelector(`${BUTTONS_ROOT_QUERY} :nth-child(3)`);
-    const first = createStageButton(1, false, LANGUAGE_STATE.korean);
-    const second = createStageButton(2, true, LANGUAGE_STATE.both);
-    const third = createStageButton(3, false, LANGUAGE_STATE.hide);
+    const first = createStageButton(1, repeat, false, language, LANGUAGE_STATE.korean);
+    const second = createStageButton(2, repeat, true, language, LANGUAGE_STATE.both);
+    const third = createStageButton(3, repeat, false, language, LANGUAGE_STATE.hide);
 
     return { root, first, second, third };
 };
