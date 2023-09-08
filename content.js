@@ -46,6 +46,7 @@ chrome.runtime.onMessage.addListener((message) => {
             return;
         }
 
+        buttons.first.click();
         buttons.root.appendChild(buttons.first);
         buttons.root.appendChild(buttons.second);
         buttons.root.appendChild(buttons.third);
